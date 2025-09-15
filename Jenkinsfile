@@ -62,12 +62,13 @@ pipeline {
         
         stage('Deploy to Kubernetes') {
             steps {
-                dir('k8s') {
+                script {    
                     sh """
                         kubectl apply -f deployment.yaml --validate=false
                         
                     """
                 }
+                
                 sh """
                     kubectl rollout status deployment/mybucks -n starbucks --timeout=120s
                 """
