@@ -60,12 +60,20 @@ pipeline {
             }
         }
         
-        stage('Deploy') {
+        stage('Deploy to Kubernetes') {
             steps {
-                echo 'Deploying application...'
-                // Add deployment steps here
+                dir('k8s_project') {
+                    sh """
+                        kubectl apply -f deployment.yaml
+                        
+                    """
+                }
+                sh """
+                    kubectl rollout status deployment/mybucks -n starbucks --timeout=120s
+                """
             }
         }
+
     }
     
     post {

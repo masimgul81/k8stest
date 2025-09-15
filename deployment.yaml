@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: mohsinakhtar/vproject-img:latest
+        image: g3niuz/mybucks:latest
         ports:
         - containerPort: 80 
 
