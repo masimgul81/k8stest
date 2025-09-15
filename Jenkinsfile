@@ -6,14 +6,15 @@ pipeline {
         stage('clone repo') {
             steps {
                 echo 'Building...'
-                dir('web-app') {
+                dir('./web-app') {
                     git branch: 'main', url: 'https://github.com/masimgul81/starbucks.git'
                 }
             }
         }
-        stage('Test') {
+        stage('building Docker Image & Push') {
             steps {
                 echo 'Testing...'
+                sh docker.build("masimgul81/mybucks:latest").push()
             }
         }
         stage('Deploy') {
