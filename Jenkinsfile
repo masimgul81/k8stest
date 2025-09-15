@@ -60,18 +60,18 @@ pipeline {
             }
         }
         
-        stage('Check Cluster') {
-            steps {
-                sh 'kubectl version'
-                sh 'kubectl get ns'
-            }
-        }
+        // stage('Check Cluster') {
+        //     steps {
+        //         sh 'kubectl version'
+        //         sh 'kubectl get ns'
+        //     }
+        // }
 
         stage('Deploy to Kubernetes') {
             steps {
                 script {    
                     sh """
-                        kubectl apply -f deployment.yaml --validate=false
+                        sudo kubectl apply -f deployment.yaml
                         
                     """
                 }
