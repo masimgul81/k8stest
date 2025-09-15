@@ -62,7 +62,7 @@ pipeline {
         
         stage('Check Cluster') {
             steps {
-                sh 'kubectl version --short'
+                sh 'kubectl version'
                 sh 'kubectl get ns'
             }
         }
