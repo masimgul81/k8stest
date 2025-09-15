@@ -60,6 +60,13 @@ pipeline {
             }
         }
         
+        stage('Check Cluster') {
+            steps {
+                sh 'kubectl version --short'
+                sh 'kubectl get ns'
+            }
+        }
+
         stage('Deploy to Kubernetes') {
             steps {
                 script {    
