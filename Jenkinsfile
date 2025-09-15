@@ -14,7 +14,7 @@ pipeline {
         stage('building Docker Image & Push') {
             steps {
                 echo 'Testing...'
-                sh docker.build("masimgul81/mybucks:latest").push()
+                sh docker.build("g3niuz/mybucks").push()
             }
         }
         stage('Deploy') {
