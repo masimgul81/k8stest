@@ -15,8 +15,9 @@ pipeline {
             steps {
                 echo 'Testing...'
                 sh '''
-                    docker.build("g3niuz/mybucks:latest")
-                    docker.push("g3niuz/mybucks:latest")
+                    dockerImage = docker.build("g3niuz/mybucks:latest", "./web-app")
+                    dockerImage.push()
+                    dockerImage.push("latest")
                 '''
                 //sh docker.build("g3niuz/mybucks").push()
             }
