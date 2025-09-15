@@ -62,7 +62,7 @@ pipeline {
         
         stage('Deploy to Kubernetes') {
             steps {
-                dir('k8s_project') {
+                dir('k8s') {
                     sh """
                         kubectl apply -f deployment.yaml
                         
