@@ -1,30 +1,83 @@
-//creating a simple pipeline
 pipeline {
     agent any
     
+    environment {
+        DOCKER_REGISTRY = "docker.io"
+        DOCKER_IMAGE = "g3niuz/mybucks"
+        DOCKER_TAG = "latest"
+    }
+    
     stages {
-        stage('clone repo') {
+        stage('Clone Repository') {
             steps {
-                echo 'Building...'
-                dir('./web-app') {
+                echo 'Cloning Starbucks repository...'
+                dir('web-app') {
                     git branch: 'main', url: 'https://github.com/masimgul81/starbucks.git'
                 }
             }
         }
-        stage('building Docker Image & Push') {
+        
+        stage('Build Docker Image') {
             steps {
-                echo 'Testing...'
-                sh '''
-                    docker build -t g3niuz/mybucks:latest ./web-app
-                    docker push g3niuz/mybucks:latest
-                '''
-                //sh docker.build("g3niuz/mybucks").push()
+                echo 'Building Docker image...'
+                script {
+                    docker.build("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}", "./web-app")
+                }
             }
         }
+        
+        stage('Login to Docker Hub') {
+            steps {
+                echo 'Logging in to Docker Hub...'
+                script {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'docker-hub-creds',
+                        usernameVariable: 'g3niuz',
+                        passwordVariable: 'H0ney10071981'
+                    )]) {
+                        sh """
+                            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Push to Docker Hub') {
+            steps {
+                echo 'Pushing image to Docker Hub...'
+                script {
+                    sh """
+                        docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    """
+                }
+            }
+            
+            post {
+                always {
+                    sh 'docker logout'
+                }
+            }
+        }
+        
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                echo 'Deploying application...'
+                // Add deployment steps here
             }
+        }
+    }
+    
+    post {
+        failure {
+            echo 'Pipeline failed! Checking authentication status...'
+            sh 'docker info || true'
+            sh 'docker images || true'
+        }
+        cleanup {
+            echo 'Cleaning up workspace...'
+            // Clean up Docker images to save space
+            sh 'docker rmi ${DOCKER_IMAGE}:${DOCKER_TAG} || true'
         }
     }
 }
