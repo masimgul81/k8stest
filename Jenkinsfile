@@ -71,7 +71,7 @@ pipeline {
             steps {
                 script {    
                     sh """
-                        sudo kubectl apply -f deployment.yaml
+                        kubectl apply -f deployment.yaml
                         
                     """
                 }
