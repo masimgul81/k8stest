@@ -67,26 +67,26 @@ pipeline {
         //     }
         // }
 
-        // stage('Deploy to Kubernetes') {
-        //     steps {
-        //         // Replace the image tag in deployment.yaml dynamically
-        //         sh '''
-        //             sed -i 's|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|' deployment.yaml
-        //             kubectl apply -f deployment.yaml --validate=false
-        //         '''
-        //     }
-        // }
-
         stage('Deploy to Kubernetes') {
             steps {
-                container('kubectl') {
-                    sh '''
-                        sed -i "s|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|" deployment.yaml
-                        kubectl apply -f deployment.yaml --validate=false
-                    '''
-                }
+                // Replace the image tag in deployment.yaml dynamically
+                sh '''
+                    sed -i 's|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|' deployment.yaml
+                    kubectl apply -f deployment.yaml --validate=false
+                '''
             }
         }
+
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         container('kubectl') {
+        //             sh '''
+        //                 sed -i "s|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|" deployment.yaml
+        //                 kubectl apply -f deployment.yaml --validate=false
+        //             '''
+        //         }
+        //     }
+        // }
 
 
     }
