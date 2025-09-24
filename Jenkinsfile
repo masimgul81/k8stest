@@ -81,9 +81,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                    echo "KUBECONFIG path: $KUBECONFIG"
-                    ls -la $KUBECONFIG
-                    
                     sed -i "s|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|" deployment.yaml
                     kubectl apply -f deployment.yaml --validate=false
                 '''
