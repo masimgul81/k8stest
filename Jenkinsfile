@@ -72,7 +72,7 @@ pipeline {
                 // Replace the image tag in deployment.yaml dynamically
                 sh '''
                     sed -i 's|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|' deployment.yaml
-                    kubectl apply -f deployment.yaml
+                    kubectl apply -f deployment.yaml --validate=false
                 '''
             }
         }
