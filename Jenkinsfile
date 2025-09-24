@@ -5,7 +5,7 @@ pipeline {
         DOCKER_REGISTRY = "docker.io"
         DOCKER_IMAGE = "g3niuz/mybucks"
         DOCKER_TAG = "latest"
-        KUBECONFIG = "/home/asim/.kube/config"
+        KUBECONFIG = "~/.kube/config"
     }
     
     stages {
