@@ -69,31 +69,27 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                script {    
-                    sh """
-                        kubectl apply -f deployment.yaml --validate=false
-                        
-                    """
-                }
-                
-                sh """
-                    kubectl rollout status deployment/mybucks -n starbucks --timeout=120s
-                """
+                // Replace the image tag in deployment.yaml dynamically
+                sh '''
+                    sed -i 's|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|' deployment.yaml
+                    kubectl apply -f deployment.yaml
+                '''
             }
         }
 
     }
     
-    post {
-        failure {
-            echo 'Pipeline failed! Checking authentication status...'
-            sh 'docker info || true'
-            sh 'docker images || true'
-        }
-        cleanup {
-            echo 'Cleaning up workspace...'
-            // Clean up Docker images to save space
-            sh 'docker rmi ${DOCKER_IMAGE}:${DOCKER_TAG} || true'
-        }
-    }
+    // post {
+    //     failure {
+    //         echo 'Pipeline failed! Checking authentication status...'
+    //         sh 'docker info || true'
+    //         sh 'docker images || true'
+    //     }
+    //     cleanup {
+    //         echo 'Cleaning up workspace...'
+    //         // Clean up Docker images to save space
+    //         sh 'docker rmi ${DOCKER_IMAGE}:${DOCKER_TAG} || true'
+    //     }
+    // }
+
 }
