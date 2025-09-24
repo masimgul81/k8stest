@@ -5,7 +5,7 @@ pipeline {
         DOCKER_REGISTRY = "docker.io"
         DOCKER_IMAGE = "g3niuz/mybucks"
         DOCKER_TAG = "latest"
-        KUBECONFIG = "~/.kube/config"
+        KUBECONFIG = "/var/lib/jenkins/.kube/config"
     }
     
     stages {
@@ -82,7 +82,7 @@ pipeline {
             steps {
                 sh '''
                     sed -i "s|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|" deployment.yaml
-                    kubectl apply -f deployment.yaml --validate=false
+                    kubectl --kubeconfig=$KUBECONFIG apply -f deployment.yaml --validate=false
                 '''
             }
         }
