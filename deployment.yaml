@@ -32,6 +32,6 @@ spec:
     app: my-app
   ports:
     - protocol: TCP
-      port: 8090
+      port: 80
       targetPort: 80
   type: LoadBalancer
