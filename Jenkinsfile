@@ -81,7 +81,7 @@ pipeline {
         stage('Deploy to Kubernetes 1') {
             steps {
                 sh '''
-                    sed -i "s|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|" deployment.yaml
+                    sed -i "s|image: g3niuz/myflix:.*|image: g3niuz/myflix:${DOCKER_TAG}|" deployment.yaml
                     kubectl --kubeconfig=$KUBECONFIG apply -f deployment.yaml --validate=false
                 '''
             }
