@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo 'Cloning Starbucks repository...'
                 dir('web-app') {
-                    git branch: 'main', url: 'https://github.com/masimgul81/starbucks.git'
+                    git branch: 'main', url: 'https://github.com/masimgul81/netflix.git'
                 }
             }
         }
