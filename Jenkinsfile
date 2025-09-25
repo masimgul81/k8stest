@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         DOCKER_REGISTRY = "docker.io"
-        DOCKER_IMAGE = "g3niuz/mybucks"
+        DOCKER_IMAGE = "g3niuz/myflix"
         DOCKER_TAG = "latest"
         KUBECONFIG = "/var/lib/jenkins/.kube/config"
     }
