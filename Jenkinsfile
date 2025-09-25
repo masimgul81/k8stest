@@ -78,7 +78,7 @@ pipeline {
         //     }
         // }
 
-        stage('Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes 1') {
             steps {
                 sh '''
                     sed -i "s|image: g3niuz/mybucks:.*|image: g3niuz/mybucks:${DOCKER_TAG}|" deployment.yaml
